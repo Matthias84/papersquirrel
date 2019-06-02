@@ -1,7 +1,7 @@
 {% if latest_article_list %}
     <ul>
     {% for article in latest_article_list %}
-        <li><a href="/article/{{ article.id }}/">{{ article.download_url }}</a></li>
+        <li><a href="{% url 'squirrel:detail' article.id %}">{{ article.download_url }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
