@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.views import generic
 
 from .models import Article
+from .forms import AddArticleForm
 
 
 class IndexView(generic.ListView):
@@ -17,3 +18,12 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Article
     template_name = 'squirrel/detail.html'
+
+def add_article(request):
+    if request.method == 'POST':
+        form = AddArticleForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/thanks/')
+    else:
+        form = AddArticleForm()
+    return render(request, 'squirrel/add.html', {'form': form})
