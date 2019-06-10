@@ -1,3 +1,6 @@
 db.sqlite3
 *.pyc
 .squirrel
+
+# temp work
+Unread articles.json

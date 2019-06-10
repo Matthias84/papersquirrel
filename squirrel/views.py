@@ -20,10 +20,14 @@ class DetailView(generic.DetailView):
     template_name = 'squirrel/detail.html'
 
 def add_article(request):
+    '''Form to add and fetch a new article'''
     if request.method == 'POST':
         form = AddArticleForm(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect('/thanks/')
+            url = form.cleaned_data['download_url']
+            article = Article(download_url=url)
+            article.save()
+            return HttpResponseRedirect(reverse('squirrel:detail', args=(article.id,)))
     else:
         form = AddArticleForm()
     return render(request, 'squirrel/add.html', {'form': form})
