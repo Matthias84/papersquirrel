@@ -1,5 +1,7 @@
 from django.db import models
 
+import datetime
+
 # Create your models here.
 class Article(models.Model):
     title = models.CharField(max_length=250, blank = True)
@@ -22,3 +24,7 @@ class Article(models.Model):
             return self.title
         else:
             return self.download_url
+
+    @classmethod
+    def add(Article, url):
+        return Article(download_url = url, download_date = datetime.datetime.now())

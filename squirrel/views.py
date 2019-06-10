@@ -24,8 +24,8 @@ def add_article(request):
     if request.method == 'POST':
         form = AddArticleForm(request.POST)
         if form.is_valid():
-            url = form.cleaned_data['download_url']
-            article = Article(download_url=url)
+            dlurl = form.cleaned_data['download_url']
+            article = Article.add(url=dlurl)
             article.save()
             return HttpResponseRedirect(reverse('squirrel:detail', args=(article.id,)))
     else:
