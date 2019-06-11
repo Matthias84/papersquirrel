@@ -1,3 +1,6 @@
+{% extends "squirrel/base.html" %}
+{% block title %}{{ article }}{% endblock %}
+{% block content %}
 <h1>{{ article.title }}</h1>
 
 <h2>{{ article.description }}</h2>
@@ -7,3 +10,4 @@
     <li>from {{ article.download_url }} (at {{ article.download_date }})</li>
     <li>{{ article.copyright }}</li>
 </ul>
+{% endblock %}

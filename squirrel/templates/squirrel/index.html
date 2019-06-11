@@ -1,3 +1,5 @@
+{% extends "squirrel/base.html" %}
+{% block content %}
 {% if latest_article_list %}
     <ul>
     {% for article in latest_article_list %}
@@ -7,3 +9,4 @@
 {% else %}
     <p>No articles are available.</p>
 {% endif %}
+{% endblock %}

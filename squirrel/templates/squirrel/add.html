@@ -1,5 +1,9 @@
+{% extends "squirrel/base.html" %}
+{% block title %}Add new article{% endblock %}
+{% block content %}
 <form action="{% url 'squirrel:add' %}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit">
 </form>
+{% endblock %}
