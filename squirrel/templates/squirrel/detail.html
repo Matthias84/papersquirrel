@@ -5,6 +5,8 @@
 
 <h2>{{ article.description }}</h2>
 
+<div id="html_content">{{ article.source_html|safe }}</div>
+
 <h2>META</h2>
 <ul>
     <li>from {{ article.download_url }} (at {{ article.download_date }})</li>

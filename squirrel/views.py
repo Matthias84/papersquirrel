@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 
@@ -10,14 +10,16 @@ from .forms import AddArticleForm
 class IndexView(generic.ListView):
     template_name = 'squirrel/index.html'
     context_object_name = 'latest_article_list'
-    
+
     def get_queryset(self):
         """Return the last five published questions."""
         return Article.objects.order_by('-download_date')[:5]
 
+
 class DetailView(generic.DetailView):
     model = Article
     template_name = 'squirrel/detail.html'
+
 
 def add_article(request):
     '''Form to add and fetch a new article'''

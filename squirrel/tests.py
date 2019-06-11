@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from .models import Article
 
+
 # Create your tests here.
 class ArticleModelTests(TestCase):
     def test_add_basic(self):
@@ -13,4 +14,4 @@ class ArticleModelTests(TestCase):
         """
         article = Article.add('https://localhost')
         self.assertEqual(article.id, 1)
-        self.assertTrue(timezone.now()- datetime.timedelta(seconds=30) < article.download_date < timezone.now())
+        self.assertTrue(timezone.now() - datetime.timedelta(seconds=30) < article.download_date < timezone.now())
