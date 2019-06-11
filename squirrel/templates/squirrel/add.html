@@ -1,4 +1,4 @@
-<form action="/squirrel/article/add" method="post">
+<form action="{% url 'squirrel:add' %}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit">
