@@ -10,5 +10,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         url = options['url']
         article = Article.add(url)
-        article.save()
         self.stdout.write(self.style.SUCCESS('Successfully added with ID "%s"' % article.id))

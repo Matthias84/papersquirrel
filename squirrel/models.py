@@ -28,4 +28,6 @@ class Article(models.Model):
     @classmethod
     def add(Article, url):
         """Fetch page and add as an article"""
-        return Article(download_url = url, download_date = timezone.now(), source_html = '<html></html>')
+        article = Article(download_url = url, download_date = timezone.now(), source_html = '<html></html>')
+        article.save()
+        return article
