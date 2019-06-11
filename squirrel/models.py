@@ -1,6 +1,6 @@
 from django.db import models
 
-import datetime
+from django.utils import timezone
 
 # Create your models here.
 class Article(models.Model):
@@ -13,7 +13,7 @@ class Article(models.Model):
     publisher = models.CharField(max_length=250, blank = True)
     copyright = models.CharField(max_length=250, blank = True)
     download_url = models.URLField(blank = True)
-    source_html = models.TextField(blank = True)
+    source_html = models.TextField()
     source_markdown = models.TextField(editable = False)
     wordcount = models.BigIntegerField(editable = False, blank = True, null = True)
     # TODO: readingtime, keywords, previewimage, language
@@ -27,4 +27,5 @@ class Article(models.Model):
 
     @classmethod
     def add(Article, url):
-        return Article(download_url = url, download_date = datetime.datetime.now())
+        """Fetch page and add as an article"""
+        return Article(download_url = url, download_date = timezone.now(), source_html = '<html></html>')
