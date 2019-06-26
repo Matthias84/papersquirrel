@@ -27,7 +27,7 @@ def add_article(request):
         form = AddArticleForm(request.POST)
         if form.is_valid():
             dlurl = form.cleaned_data['download_url']
-            article = Article.add(url=dlurl)
+            article = Article.add(url=dlurl, html_source='<html></html>')
             article.save()
             return HttpResponseRedirect(reverse('squirrel:detail', args=(article.id,)))
     else:
