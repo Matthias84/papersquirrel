@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-from squirrel.utils import downloadPage, getMetaData
+from squirrel.utils import downloadPage, getMetaData, getImportantContentDom
 
 
 # Create your models here.
@@ -47,3 +47,7 @@ class Article(models.Model):
         article = Article(download_url=url, download_date=timezone.now(), source_html= html_source)
         article.save()
         return article
+    
+    def getImportantContent(self):
+        """return minimal HTML skelleton of the text itself incl. images, ..."""
+        return getImportantContentDom(self.source_html)

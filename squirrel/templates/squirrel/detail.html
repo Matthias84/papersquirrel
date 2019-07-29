@@ -5,12 +5,13 @@
 
 <h2>{{ article.description }}</h2>
 
-<div id="html_content">{{ article.source_html|safe }}</div>
+<div id="html_content">{{ article.getImportantContent|safe }}</div>
 
 <h2>Details</h2>
 <ul>
     <li>from {{ article.download_url }} (at {{ article.download_date }})</li>
-    <li>{{ article.copyright }}</li>
+    <li>by {{ article.author }} published {{ article.pub_date }}</li>
+    <li>((c) {{ article.publisher }} {{ article.copyright }})</li>
 </ul>
 
 <a href="{% url 'squirrel:index' %}">Back</a>
