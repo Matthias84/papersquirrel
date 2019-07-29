@@ -42,7 +42,8 @@ class Article(models.Model):
     def add(Article, url, html_source=None):
         """Fetch page and add as an article. If source provided, it is used as page content instead"""
         # TODO: SECURITY check if file:// localhost, 127, 00: links to list server content
-        if html_source:
-            article = Article(download_url=url, download_date=timezone.now(), source_html= html_source)
-            article.save()
+        if not html_source:
+            html_source =  downloadPage(url)
+        article = Article(download_url=url, download_date=timezone.now(), source_html= html_source)
+        article.save()
         return article
