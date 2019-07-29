@@ -7,9 +7,11 @@
 
 <div id="html_content">{{ article.source_html|safe }}</div>
 
-<h2>META</h2>
+<h2>Details</h2>
 <ul>
     <li>from {{ article.download_url }} (at {{ article.download_date }})</li>
     <li>{{ article.copyright }}</li>
 </ul>
+
+<a href="{% url 'squirrel:index' %}">Back</a>
 {% endblock %}
