@@ -14,5 +14,8 @@
     <li>((c) {{ article.publisher }} {{ article.copyright }})</li>
 </ul>
 
+<a href="{% url 'squirrel:download_html' article.id %}">as HTML (original)</a>
+<a href="{% url 'squirrel:download_md' article.id %}">as Markdown</a>
+
 <a href="{% url 'squirrel:index' %}">Back</a>
 {% endblock %}
