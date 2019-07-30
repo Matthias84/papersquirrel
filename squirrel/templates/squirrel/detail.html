@@ -5,14 +5,14 @@
 
 <h2>{{ article.description }}</h2>
 
-<div id="html_content">{{ article.getImportantContent|safe }}</div>
-
-<h2>Details</h2>
-<ul>
-    <li>from {{ article.download_url }} (at {{ article.download_date }})</li>
-    <li>by {{ article.author }} published {{ article.pub_date }}</li>
-    <li>((c) {{ article.publisher }} {{ article.copyright }})</li>
-</ul>
+<blockquote class="blockquote">
+    <div id="html_content">{{ article.getImportantContent|safe }}</div>
+    <footer class="blockquote-footer">
+        <h2>Details</h2>
+        by {{ article.author }} <cite title="">published {{ article.pub_date }}</cite></br>
+        ((c) {{ article.publisher }} {{ article.copyright }}) <cite title="">from <a href="{{ article.download_url }}">{{ article.download_url }}</a> at {{ article.download_date }}</cite>
+    </footer>
+</blockquote>
 
 <a href="{% url 'squirrel:download_html' article.id %}">as HTML (original)</a>
 <a href="{% url 'squirrel:download_md' article.id %}">as Markdown</a>
