@@ -4,15 +4,23 @@
 <head>
     <title>{% block title %}Papersquirrel{% endblock %}</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY=" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="header">
-        <h1><a href="{% url 'squirrel:index' %}">Papersquirrel</a></h1>
-    </div>
-    <div id="content">
-        {% block content %}{% endblock %}
+    <div class="container">
+        <div id="header">
+            <nav class="navbar">
+              <a class="navbar-brand" href="{% url 'squirrel:index' %}">
+                <img src="{% static 'logo.svg' %}" width="30" height="30" alt="">
+                Papersquirrel
+              </a>
+            </nav>
+        </div>
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
     </div>
 </body>
 </html>
