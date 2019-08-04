@@ -39,11 +39,11 @@ class Article(models.Model):
         super().save(*args, **kwargs)
 
     @classmethod
-    def add(Article, url, html_source=None):
+    def add(Article, url, useragent, html_source=None):
         """Fetch page and add as an article. If source provided, it is used as page content instead"""
         # TODO: SECURITY check if file:// localhost, 127, 00: links to list server content
         if not html_source:
-            html_source =  downloadPage(url)
+            html_source =  downloadPage(url, useragent)
         article = Article(download_url=url, download_date=timezone.now(), source_html= html_source)
         article.save()
         return article

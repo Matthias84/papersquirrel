@@ -14,8 +14,16 @@
     </footer>
 </blockquote>
 
-<a href="{% url 'squirrel:download_html' article.id %}">as HTML (original)</a>
-<a href="{% url 'squirrel:download_md' article.id %}">as Markdown</a>
+
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Download
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{% url 'squirrel:download_html' article.id %}"><i class="fa fa-html5 fa-fw"></i>HTML org.</a>
+    <a class="dropdown-item" href="{% url 'squirrel:download_md' article.id %}"><i class="fa fa-file-text fa-fw"></i>markdown</a>
+  </div>
+</div>
 
 <a href="{% url 'squirrel:index' %}">Back</a>
 {% endblock %}

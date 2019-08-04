@@ -9,10 +9,10 @@ from bs4 import BeautifulSoup
 from dateutil import parser as duparser
 
 
-def downloadPage(url):
+def downloadPage(url,useragent = 'papersquirrel/0.1 (Linux; ) requests/2.22'):
     """Download HTML page via HTTP following redirects, encodings, ..."""
     # TODO: Detect status codes and MIME headers
-    r = requests.get(url, headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0',
+    r = requests.get(url, headers = {'User-Agent': useragent,
                                     'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'})
     return r.text
 
@@ -112,7 +112,7 @@ def getImportantContentDom(html):
     for child in dom.descendants:
         if child.name:
             wordcountChild = len(re.findall(r'\w+', child.get_text()))
-            if (wordcountChild / wordcountTotal) >= 0.75:
+            if (wordcountChild / wordcountTotal) >= 0.95:
                     candidate = child
     return candidate
 
