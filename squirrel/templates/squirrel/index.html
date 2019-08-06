@@ -1,5 +1,6 @@
 {% extends "squirrel/base.html" %}
 {% block content %}
+{% if user.is_authenticated %}
 {% if latest_article_list %}
     <ul>
     {% for article in latest_article_list %}
@@ -10,4 +11,8 @@
     <p>No articles are available.</p>
 {% endif %}
 <a class="btn btn-primary btn-lg" href="{% url 'squirrel:add'%}"><i class="fa fa-plus" aria-hidden="true"></i>Add new ...</a>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
 {% endblock %}

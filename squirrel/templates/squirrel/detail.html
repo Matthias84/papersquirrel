@@ -1,6 +1,7 @@
 {% extends "squirrel/base.html" %}
 {% block title %}{{ article }}{% endblock %}
 {% block content %}
+{% if user.is_authenticated %}
 <h1>{{ article.title }}</h1>
 
 <h2>{{ article.description }}</h2>
@@ -26,4 +27,8 @@
 </div>
 
 <a href="{% url 'squirrel:index' %}">Back</a>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
 {% endblock %}

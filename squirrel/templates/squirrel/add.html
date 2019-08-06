@@ -1,9 +1,14 @@
 {% extends "squirrel/base.html" %}
 {% block title %}Add new article{% endblock %}
 {% block content %}
+{% if user.is_authenticated %}
 <form action="{% url 'squirrel:add' %}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit">
 </form>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
 {% endblock %}
