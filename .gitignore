@@ -1,6 +1,8 @@
 db.sqlite3
 *.pyc
 .squirrel
-
+/papersquirrel/settings/*.py
+!/papersquirrel/settings/base.py
+!/papersquirrel/settings/example.py
 # temp work
 Unread articles.json
