@@ -9,12 +9,11 @@ env:
 # install requirements
 install:
   - pip install -r requirements.txt
-  - pip install coverage coveralls
-  - pip install -e .
+  - pip install coveralls
 
 # To run tests
 script:
-  - coverage run --source='.' manage.py test --settings papersquirrel.settings.ci
+  - coverage run manage.py test --settings papersquirrel.settings.ci
 
 # send coverage report to coveralls
 
