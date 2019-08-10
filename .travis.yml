@@ -4,7 +4,7 @@ python:
   - "3.6"
 
 env:
-  -DJANGO=2.2 DB=sqlite3
+  - DJANGO=2.2 DB=sqlite3
   - DJANGO_SETTINGS_MODULE='papersquirrel.settings.ci'
 
 # install requirements
@@ -14,7 +14,7 @@ install:
 
 # To run tests
 script:
-  - coverage run --source=./ manage.py test --settings=papersquirrel.settings.ci
+  - coverage run manage.py test
 
 # send coverage report to coveralls
 
