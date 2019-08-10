@@ -6,7 +6,7 @@ import os
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import Article
+from squirrel.models import Article
 
 
 class ArticleModelTests(TestCase):
