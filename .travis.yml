@@ -10,6 +10,7 @@ env:
 install:
   - pip install -r requirements.txt
   - pip install coverage coveralls
+  - pip install -e .
 
 # To run tests
 script:
