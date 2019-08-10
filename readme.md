@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/Matthias84/papersquirrel/badge.svg?branch=master)](https://coveralls.io/github/Matthias84/papersquirrel?branch=master)
 read-it-later clone for simple selfhosting and training my Django skills and gathering FLOSS team experience.
 Before I was unhappy with wallabag (esp. administration in selfhosting in VPS) and Mozilla pocket (tied to firefox profiles, no selfhosting).
 

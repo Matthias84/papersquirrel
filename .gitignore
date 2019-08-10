@@ -6,3 +6,4 @@ db.sqlite3
 !/papersquirrel/settings/example.py
 # temp work
 Unread articles.json
+.coverage

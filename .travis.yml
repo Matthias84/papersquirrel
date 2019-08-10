@@ -1,0 +1,21 @@
+language: python
+
+python:
+  - "3.6"
+
+env:
+  -DJANGO=2.2 DB=sqlite3
+
+# install requirements
+install:
+  - pip install -r requirements.txt
+  - pip install coverage coveralls
+
+# To run tests
+script:
+  - coverage run --source='.' manage.py test --settings papersquirrel.settings.ci
+
+# send coverage report to coveralls
+
+after_success:
+  coveralls
