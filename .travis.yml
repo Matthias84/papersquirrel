@@ -14,7 +14,7 @@ install:
 
 # To run tests
 script:
-  - coverage run --source=. manage.py test --settings=papersquirrel.settings.ci
+  - coverage run --source=./ manage.py test --settings=papersquirrel.settings.ci
 
 # send coverage report to coveralls
 
