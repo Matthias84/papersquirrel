@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -87,3 +88,5 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = 'squirrel:index'
 LOGOUT_REDIRECT_URL = 'squirrel:index'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

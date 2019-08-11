@@ -1,11 +1,12 @@
 {% extends "squirrel/base.html" %}
 {% block title %}Add new article{% endblock %}
+{% load crispy_forms_tags %}
 {% block content %}
 {% if user.is_authenticated %}
-<form action="{% url 'squirrel:add' %}" method="post">
+<form action="{% url 'squirrel:add' %}" method="post" novalidate>
     {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
+    {{ form|crispy}}
+    <button type="submit" class="btn btn-success">Submit</button>
 </form>
 {% else %}
   <p>You are not logged in</p>

@@ -1,6 +1,11 @@
+{% extends "squirrel/base.html" %}
+{% block title %}Login{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
 <h2>Login</h2>
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
+  {{ form|crispy}}
+  <button type="submit" class="btn btn-success">Submit</button>
 </form>
+{% endblock %}
