@@ -76,44 +76,39 @@ def getContentMarkdown(html):
     """Returns page text as richtext markdown"""
     return html2text.html2text(html)
 
-def printContentWeights(html):
-    '''Traverse DOM and calculate content weigth per element'''
+def getImportantContentDom(html, verbose = False):
+    '''
+    Return <div> element that wraps text incl. headings but doesn't include menus /...
+    
+    Traverse DOM and calculate content weigth per element (wordcount).
+    '''
+    MIN_TEXT_RATIO = 0.65
     dom = BeautifulSoup(html, 'html.parser')
     txt = dom.body.get_text()
     wordcountTotal = len(re.findall(r'\w+', txt))
+    if verbose:
+        print("Body words: ", wordcountTotal)
+    candidate = (0, None)
     # crawl down and get percentage of words below this child element
     for child in dom.descendants:
-        if child.name:
+        if child.name == 'div':
+            highlight = ''
             hierachy = ""
-            level = 0
-            for parent in child.parents:
-                hierachy = parent.name + '.' +hierachy
-                level = level +1
             wordcountChild = len(re.findall(r'\w+', child.get_text()))
-            if (wordcountChild / wordcountTotal) >= 0.75:
-                highlight = '\033[94m'
+            # keep as little infos as possible -> till below word ratio
+            if (wordcountChild / wordcountTotal) >= MIN_TEXT_RATIO:
+                    candidate = child
+                    highlight = '\033[94m'
+            if verbose:
+                #print debug infos
+                level = 0
+                for parent in child.parents:
+                    hierachy = parent.name + '.' +hierachy
+                    level = level +1
                 label = ''
                 if 'class' in child.attrs :
                     label = child['class']
                 print(highlight, hierachy,child.name, level, label, wordcountChild, '\033[0m')
-            else:
-                highlight = ''
-                print(highlight, hierachy,child.name, wordcountChild, '\033[0m')
-    # find DIV that wraps text incl. headings but doesn't include navigation
-
-def getImportantContentDom(html):
-    '''Returns element with most content. Calculated by wordcount'''
-    # find DIV/... that wraps text incl. headings but doesn't include navigation
-    dom = BeautifulSoup(html, 'html.parser')
-    txt = dom.body.get_text()
-    wordcountTotal = len(re.findall(r'\w+', txt))
-    candidate = (0, None)
-    # crawl down and get percentage of words below this child element
-    for child in dom.descendants:
-        if child.name:
-            wordcountChild = len(re.findall(r'\w+', child.get_text()))
-            if (wordcountChild / wordcountTotal) >= 0.95:
-                    candidate = child
     return candidate
 
 def main(args):

@@ -70,7 +70,16 @@ ipsum,Lorem ipsum,
         with codecs.open(os.path.join(testpath,'basic-html.html'), 'r', 'utf-8') as f:
             page = f.read()
             domFiltered = utils.getImportantContentDom(page)
-            self.assertEqual('body', domFiltered.name)
+            self.assertEqual(domFiltered.attrs['id'], 'content')
+    
+    def test_important_content_wikipedia(self):
+        """Check filter against realworld content, here wikipedia
+        https://en.wikipedia.org/wiki/Rostock"""
+        with codecs.open(os.path.join(testpath,'wikipedia-rostock.html'), 'r', 'utf-8') as f:
+            page = f.read()
+            domFiltered = utils.getImportantContentDom(page, verbose=True)
+            self.assertEqual(domFiltered.attrs['class'][0], 'mw-parser-output')
+            print(domFiltered.attrs)
         
 
 
