@@ -78,37 +78,44 @@ def getContentMarkdown(html):
 
 def getImportantContentDom(html, verbose = False):
     '''
-    Return <div> element that wraps text incl. headings but doesn't include menus /...
+    Return <div> element that wraps (formated) text incl. headings but doesn't include menus /...
     
     Traverse DOM and calculate content weigth per element (wordcount).
     '''
-    MIN_TEXT_RATIO = 0.65
+    TEXT_SPAM_RATIO = 0.3 #percent of text to be ignored
     dom = BeautifulSoup(html, 'html.parser')
     txt = dom.body.get_text()
     wordcountTotal = len(re.findall(r'\w+', txt))
     if verbose:
         print("Body words: ", wordcountTotal)
-    candidate = (0, None)
-    # crawl down and get percentage of words below this child element
-    for child in dom.descendants:
-        if child.name == 'div':
-            highlight = ''
-            hierachy = ""
-            wordcountChild = len(re.findall(r'\w+', child.get_text()))
-            # keep as little infos as possible -> till below word ratio
-            if (wordcountChild / wordcountTotal) >= MIN_TEXT_RATIO:
-                    candidate = child
-                    highlight = '\033[94m'
-            if verbose:
-                #print debug infos
-                level = 0
-                for parent in child.parents:
-                    hierachy = parent.name + '.' +hierachy
-                    level = level +1
-                label = ''
-                if 'class' in child.attrs :
-                    label = child['class']
-                print(highlight, hierachy,child.name, level, label, wordcountChild, '\033[0m')
+    candidate = None
+    # check if HTML <article> element
+    article = dom.body.article
+    if article:
+        if verbose:
+            print("<article> found: ", article)
+        candidate = article
+    else:
+        # crawl down and get percentage of words below this child element
+        for child in dom.descendants:
+            if child.name in ['div', 'article']:
+                highlight = ''
+                hierachy = ""
+                wordcountChild = len(re.findall(r'\w+', child.get_text()))
+                # keep as little infos as possible -> till below word ratio
+                if (wordcountChild / wordcountTotal) >= (1-TEXT_SPAM_RATIO):
+                        candidate = child
+                        highlight = '\033[94m'
+                if verbose:
+                    #print debug infos
+                    level = 0
+                    for parent in child.parents:
+                        hierachy = parent.name + '.' +hierachy
+                        level = level +1
+                    label = ''
+                    if 'class' in child.attrs :
+                        label = child['class']
+                    print(highlight, hierachy,child.name, level, label, wordcountChild, '\033[0m')
     return candidate
 
 def main(args):

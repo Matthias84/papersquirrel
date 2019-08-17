@@ -71,13 +71,21 @@ ipsum,Lorem ipsum,
             page = f.read()
             domFiltered = utils.getImportantContentDom(page)
             self.assertEqual(domFiltered.attrs['id'], 'content')
-    
+
+    def test_important_content_article(self):
+        """Check filter with <article> tags"""
+        with codecs.open(os.path.join(testpath,'article-html.html'), 'r', 'utf-8') as f:
+            page = f.read()
+            domFiltered = utils.getImportantContentDom(page, verbose=False)
+            self.assertEqual(domFiltered.name, 'article')
+            print(domFiltered.attrs)
+
     def test_important_content_wikipedia(self):
         """Check filter against realworld content, here wikipedia
         https://en.wikipedia.org/wiki/Rostock"""
         with codecs.open(os.path.join(testpath,'wikipedia-rostock.html'), 'r', 'utf-8') as f:
             page = f.read()
-            domFiltered = utils.getImportantContentDom(page, verbose=True)
+            domFiltered = utils.getImportantContentDom(page, verbose=False) #enable vebose for debug!
             self.assertEqual(domFiltered.attrs['class'][0], 'mw-parser-output')
             print(domFiltered.attrs)
         
