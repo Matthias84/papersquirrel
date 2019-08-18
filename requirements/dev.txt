@@ -1,0 +1,6 @@
+# Specifies only dev-specific requirements
+# But imports the common ones too
+-r production.txt
+flake8
+coverage
+coveralls

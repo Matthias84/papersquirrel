@@ -1,0 +1,7 @@
+django>=2.1
+requests
+html2text
+beautifulsoup4
+dateutils
+python-decouple
+django-crispy-forms

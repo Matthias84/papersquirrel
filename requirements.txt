@@ -1,7 +1,2 @@
-django>=2.1
-requests
-html2text
-beautifulsoup4
-dateutils
-python-decouple
-django-crispy-forms
+# Mirrors prod for environments that rely on /requierements.txt only e.g. heroku
+-r requirements/production.txt
