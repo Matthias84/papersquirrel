@@ -5,6 +5,7 @@ import os
 
 from django.test import TestCase
 from django.utils import timezone
+from django.urls import reverse
 
 from squirrel.models import Article
 
@@ -29,3 +30,19 @@ class ArticleModelTests(TestCase):
             src = f.read()
             article = Article.add('https://localhost/basic-html/', '', html_source=src)
             self.assertEqual(article.source_html, src)
+
+
+class ViewTests(TestCase):
+    
+    def test_LoginsRequired(self):        
+        """
+        Check if all urls require login -> redirect
+        """
+        response = self.client.get(reverse('squirrel:detail', kwargs={'pk':0}))
+        self.assertRedirects(response,reverse('login')+"?next="+reverse('squirrel:detail', kwargs={'pk':0}))
+        response = self.client.get(reverse('squirrel:add'))
+        self.assertRedirects(response,reverse('login')+"?next="+reverse('squirrel:add'))
+        response = self.client.get(reverse('squirrel:download_html', kwargs={'pk':0}))
+        self.assertRedirects(response,reverse('login')+"?next=/squirrel/article/0/download%253Fformat%253Dhtml")
+        response = self.client.get(reverse('squirrel:download_md', kwargs={'pk':0}))
+        self.assertRedirects(response,reverse('login')+"?next=/squirrel/article/0/download%253Fformat%253Dmarkdown")

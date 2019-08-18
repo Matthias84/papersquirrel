@@ -4,6 +4,8 @@ from django.http import HttpResponseRedirect, FileResponse
 from django.urls import reverse
 from django.utils.text import slugify
 from django.views import generic
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Article
 from .forms import AddArticleForm
@@ -17,12 +19,11 @@ class IndexView(generic.ListView):
         """Return the last five published questions."""
         return Article.objects.order_by('-download_date')[:5]
 
-
-class DetailView(generic.DetailView):
+class DetailView(LoginRequiredMixin, generic.DetailView):
     model = Article
     template_name = 'squirrel/detail.html'
 
-
+@login_required
 def add_article(request):
     '''Form to add and fetch a new article'''
     if request.method == 'POST':
@@ -38,6 +39,7 @@ def add_article(request):
         form = AddArticleForm()
     return render(request, 'squirrel/add.html', {'form': form})
 
+@login_required
 def download_html(request, pk):
     '''Generate HTML file with original article source'''
     article = Article.objects.get(pk=pk)
@@ -46,6 +48,7 @@ def download_html(request, pk):
     response['Content-Disposition'] = 'attachment; filename="'+slugify(article.title)+'.html"' # name need to be set this way
     return response
 
+@login_required
 def download_md(request, pk):
     '''Generate HTML file with original article source'''
     article = Article.objects.get(pk=pk)
