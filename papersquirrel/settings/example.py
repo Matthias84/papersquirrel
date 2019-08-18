@@ -1,6 +1,8 @@
 from .base import *
 
 
+ADMIN_ENABLED = False
+
 DEBUG = False
 
 SECRET_KEY = '' # enter a long random string

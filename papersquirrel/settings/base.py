@@ -7,6 +7,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # SECURITY WARNING: keep the secret key used in production secret!
 #SECRET_KEY = config('SECRET_KEY')
 
+ADMIN_ENABLED = False
+
 INSTALLED_APPS = [
     'squirrel.apps.SquirrelConfig',
     'django.contrib.admin',
