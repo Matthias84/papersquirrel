@@ -23,6 +23,7 @@ def getMetaData(html):
     dom = BeautifulSoup(html, 'html.parser')
     title = None
     description = None
+    thumbnail = None
     kw = None
     author = None
     publisher = None
@@ -57,8 +58,14 @@ def getMetaData(html):
         if link.rel:
             if link['rel'] == 'copyright':
                 copyright = link['href']
+    ogpImage = dom.find("meta",  property="og:image")
+    if ogpImage:
+        thumbnail = ogpImage["content"]
+    
+    # TODO: Fallback for thumbnails is twitter md or first big picture before text
     return {'title': title,
             'description': description,
+            'thumbnail' : thumbnail,
             'keywords': kw,
             'author': author,
             'publisher': publisher,

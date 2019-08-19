@@ -9,6 +9,7 @@ class Article(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
     description = models.CharField(max_length=500, blank=True, null=True)
     teaser_text = models.TextField(max_length=500, editable=False, blank=True)
+    thumbnail_url = models.URLField(blank=True, null=True)
     pub_date = models.DateTimeField('date published', blank=True, null=True)
     download_date = models.DateTimeField('date downloaded', blank=True, null=True)
     author = models.CharField(max_length=250, blank=True, null=True)
@@ -32,6 +33,7 @@ class Article(models.Model):
         meta = getMetaData(self.source_html)
         self.title = meta['title']
         self.description = meta['description']
+        self.thumbnail_url = meta['thumbnail']
         self.author = meta['author']
         self.publisher = meta['publisher']
         self.pub_date = meta['date_publish']

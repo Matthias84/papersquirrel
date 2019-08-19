@@ -1,20 +1,28 @@
 {% extends "squirrel/base.html" %}
 {% load humanize %}
+{% load static %}
 {% block content %}
 {% if user.is_authenticated %}
 {% if latest_article_list %}
-    <div class="list-group">
+    <ul class="list-unstyled">
         {% for article in latest_article_list %}
-        <a href="{% url 'squirrel:detail' article.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ article.title }}</h5>
+        <li class="media">
+            <a href="{% url 'squirrel:detail' article.id %}">
+                {% if article.thumbnail_url %}
+                    <img src="{{ article.thumbnail_url}}" alt="" class="img-thumbnail">
+                {% else %}
+                    <img src="{% static 'logo.svg' %}" alt="" class="img-thumbnail">
+                {% endif %}
+            </a>
+             <div class="media-body">
+                <h5 class="mt-0 mb-1">{{ article.title }}</h5>
+                <p class="mb-1">{{ article.description }} <a href="{% url 'squirrel:detail' article.id %}">...more</a></p>
                 <small>{{ article.download_date|naturalday}}</small>
+                <!--<small>cat1, cat2, cat3, ...</small>-->
             </div>
-            <p class="mb-1">{{ article.description}}</p>
-            <!--<small>Donec id elit non mi porta.</small>-->
-        </a>
+        </li>
         {% endfor %}
-    </div>
+    </ul>
 {% else %}
     <p>No articles are available.</p>
 {% endif %}
