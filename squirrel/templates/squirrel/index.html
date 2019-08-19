@@ -1,12 +1,20 @@
 {% extends "squirrel/base.html" %}
+{% load humanize %}
 {% block content %}
 {% if user.is_authenticated %}
 {% if latest_article_list %}
-    <ul>
-    {% for article in latest_article_list %}
-        <li><a href="{% url 'squirrel:detail' article.id %}">{{ article.download_url }}</a></li>
-    {% endfor %}
-    </ul>
+    <div class="list-group">
+        {% for article in latest_article_list %}
+        <a href="{% url 'squirrel:detail' article.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ article.title }}</h5>
+                <small>{{ article.download_date|naturalday}}</small>
+            </div>
+            <p class="mb-1">{{ article.description}}</p>
+            <!--<small>Donec id elit non mi porta.</small>-->
+        </a>
+        {% endfor %}
+    </div>
 {% else %}
     <p>No articles are available.</p>
 {% endif %}
