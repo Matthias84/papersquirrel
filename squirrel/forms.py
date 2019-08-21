@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from .models import SquirrelUser
 
 
 class AddArticleForm(forms.Form):
@@ -10,3 +12,15 @@ class AddArticleForm(forms.Form):
     download_url = forms.URLField(help_text="Enter a valid HTTP(s) URL, to grab this HTML page")
     useragent = forms.ChoiceField(choices = CHOICES_UA)
     # TODO: Validators
+
+class SquirrelUserCreationForm(UserCreationForm):
+
+    class Meta(UserCreationForm):
+        model = SquirrelUser
+        fields = ('username', 'email')
+
+class SquirrelUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = SquirrelUser
+        fields = ('username', 'email')

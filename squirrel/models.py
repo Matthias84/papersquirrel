@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
 
 from squirrel.utils import downloadPage, getMetaData, getImportantContentDom, getContentMarkdown
 
@@ -57,3 +58,7 @@ class Article(models.Model):
     def getMarkdown(self):
         """return markdown richtext"""
         return getContentMarkdown(self.source_html)
+
+class SquirrelUser(AbstractUser):
+    pass
+    # add additional fields in here
