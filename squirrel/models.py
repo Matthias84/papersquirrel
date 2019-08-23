@@ -20,6 +20,7 @@ class Article(models.Model):
     source_html = models.TextField()
     source_markdown = models.TextField(editable=False)
     wordcount = models.BigIntegerField(editable=False, blank=True, null=True)
+    isRead = models.BooleanField(default = False)
     # TODO: readingtime, keywords, previewimage, language
     # TODO: isRead, isStarred
 

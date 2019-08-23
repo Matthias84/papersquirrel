@@ -1,5 +1,5 @@
 from io import StringIO
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect, FileResponse
 from django.urls import reverse
 from django.utils.text import slugify
@@ -38,6 +38,14 @@ def add_article(request):
     else:
         form = AddArticleForm()
     return render(request, 'squirrel/add.html', {'form': form})
+
+@login_required
+def mark_read(request, pk):
+    '''Set article as marked'''
+    article = Article.objects.get(pk=pk)
+    article.isRead = not article.isRead
+    article.save()
+    return redirect('squirrel:index')
 
 @login_required
 def download_html(request, pk):

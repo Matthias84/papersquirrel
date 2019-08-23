@@ -6,7 +6,7 @@
 {% if latest_article_list %}
     <ul class="list-unstyled">
         {% for article in latest_article_list %}
-        <li class="media">
+        <li class="media  {% if article.isRead %}text-muted{% endif %}">
             <a href="{% url 'squirrel:detail' article.id %}">
                 {% if article.thumbnail_url %}
                     <img src="{{ article.thumbnail_url}}" alt="" class="img-thumbnail">
