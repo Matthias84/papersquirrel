@@ -10,7 +10,7 @@ class AddArticleForm(forms.Form):
         ('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)', 'Google Search Bot'), #https://support.google.com/webmasters/answer/1061943
     )
     download_url = forms.URLField(help_text="Enter a valid HTTP(s) URL, to grab this HTML page")
-    useragent = forms.ChoiceField(choices = CHOICES_UA)
+    useragent = forms.ChoiceField(choices = CHOICES_UA, help_text='Set identification towards website to get different representation (e.g. <a href="https://en.wikipedia.org/wiki/Cloaking">cloaking SEO</a>)')
     # TODO: Validators
 
 class SquirrelUserCreationForm(UserCreationForm):

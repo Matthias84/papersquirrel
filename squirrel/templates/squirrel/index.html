@@ -9,9 +9,9 @@
         <li class="media  {% if article.isRead %}text-muted{% endif %}">
             <a href="{% url 'squirrel:detail' article.id %}">
                 {% if article.thumbnail_url %}
-                    <img src="{{ article.thumbnail_url}}" alt="" class="img-thumbnail">
+                    <img src="{{ article.thumbnail_url}}" alt="" class="img-thumbnail {% if article.isRead %}img-disabled{% endif %}">
                 {% else %}
-                    <img src="{% static 'logo.svg' %}" alt="" class="img-thumbnail">
+                    <img src="{% static 'logo.svg' %}" alt="" class="img-thumbnail {% if article.isRead %}img-disabled{% endif %}">
                 {% endif %}
             </a>
              <div class="media-body">
