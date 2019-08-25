@@ -17,7 +17,8 @@ class TestUtils(unittest.TestCase):
                                 'author': None,
                                 'publisher': None,
                                 'date_publish': None,
-                                'copyright': None})
+                                'copyright': None,
+                                'thumbnail': None})
 
     def test_metadata_empty_html(self):
         with codecs.open(os.path.join(testpath,'empty-html.html'), 'r', 'utf-8') as f:
@@ -29,7 +30,8 @@ class TestUtils(unittest.TestCase):
                                     'author': None,
                                     'publisher': None,
                                     'date_publish': None,
-                                    'copyright': None})
+                                    'copyright': None,
+                                    'thumbnail': None})
 
     def test_metadata_basic(self):
         with codecs.open(os.path.join(testpath,'basic-html.html'), 'r', 'utf-8') as f:
@@ -41,7 +43,8 @@ class TestUtils(unittest.TestCase):
                                     'author': 'matthias84',
                                     'publisher': 'localhost',
                                     'date_publish': datetime.datetime(2019, 5, 30, 11, 12, 13),
-                                    'copyright': None})
+                                    'copyright': None,
+                                    'thumbnail': None})
 
     def test_markdown(self):
         with codecs.open(os.path.join(testpath,'basic-html.html'), 'r', 'utf-8') as f:
