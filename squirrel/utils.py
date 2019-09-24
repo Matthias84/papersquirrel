@@ -19,7 +19,7 @@ def downloadPage(url,useragent = 'papersquirrel/0.1 (Linux; ) requests/2.22'):
 
 def getMetaData(html):
     """Extract some metadata of HTML document as dict"""
-    # TODO: prefer OGP / RDF / SM / ... metadata
+    # TODO: support twitter / RDF / SM / microschemas / ... metadata
     dom = BeautifulSoup(html, 'html.parser')
     title = None
     description = None
@@ -29,38 +29,61 @@ def getMetaData(html):
     publisher = None
     date_publish = None
     copyright = None
-    if dom.title:
-        title = dom.title.string
-        if title.find('|') > -1:
-            title = title.split('|')[0].rstrip()
+    # try OpenGraph (OGP) metadata first
+    ogpTitle = dom.find("meta",  property="og:title")
+    if ogpTitle:
+        title = ogpTitle["content"]
+    ogpDescr = dom.find("meta",  property="og:description")
+    if ogpDescr:
+        description = ogpDescr["content"]
+    ogpAuthor = dom.find("meta",  property="article:author")
+    if ogpAuthor:
+        author = ogpAuthor["content"]
+    ogpImage = dom.find("meta",  property="og:image")
+    if ogpImage:
+        thumbnail = ogpImage["content"]
+    ogpPublished = dom.find("meta",  property="article:published_time")
+    if ogpPublished:
+        date_publish = ogpPublished["content"]
+        date_publish = duparser.parse(date_publish)
+    ogpKeywords = dom.find("meta",  property="article:tag")
+    if ogpKeywords:
+        kw = ogpKeywords["content"]
+    # try HTML tags if nessesary
+    if not title:
+        if dom.title:
+            title = dom.title.string
+            if title.find('|') > -1:
+                title = title.split('|')[0].rstrip()
             # TODO: check if second part is domain or author
     for meta in dom.find_all('meta'):
         try:
-            if meta['name'] == 'description':
-                description = meta['content']  # TODO: remove possible HTML garbage within
-            if meta['name'] == 'keywords':
-                keywords = meta['content']
-                keywords = keywords.split(',')
-                kw = []
-                for word in keywords:
-                    word = word.strip()
-                    kw.append(word)
-            if meta['name'] == 'author':
-                author = meta['content']
+            if not description:
+                if meta['name'] == 'description':
+                    description = meta['content']  # TODO: remove possible HTML garbage within
+            if not kw:
+                if meta['name'] == 'keywords':
+                    keywords = meta['content']
+                    keywords = keywords.split(',')
+                    kw = []
+                    for word in keywords:
+                        word = word.strip()
+                        kw.append(word)
+            if not author:
+                if meta['name'] == 'author':
+                    author = meta['content']
             if meta['name'] == 'publisher':
                 publisher = meta['content']
-            if meta['name'] == 'date':
-                date_publish = meta['content']
-                date_publish = duparser.parse(date_publish)
+            if not date_publish:
+                if meta['name'] == 'date':
+                    date_publish = meta['content']
+                    date_publish = duparser.parse(date_publish)
         except KeyError:
             pass
     for link in dom.find_all('link'):
         if link.rel:
             if link['rel'] == 'copyright':
                 copyright = link['href']
-    ogpImage = dom.find("meta",  property="og:image")
-    if ogpImage:
-        thumbnail = ogpImage["content"]
     
     # TODO: Fallback for thumbnails is twitter md or first big picture before text
     return {'title': title,

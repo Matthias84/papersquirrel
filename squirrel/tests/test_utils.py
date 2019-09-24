@@ -1,6 +1,7 @@
 import unittest
 import codecs
 import datetime
+from dateutil.tz import tzutc
 import os
 
 import squirrel.utils as utils
@@ -45,6 +46,19 @@ class TestUtils(unittest.TestCase):
                                     'date_publish': datetime.datetime(2019, 5, 30, 11, 12, 13),
                                     'copyright': None,
                                     'thumbnail': None})
+
+    def test_metadata_ogp(self):
+        with codecs.open(os.path.join(testpath,'ogp.html'), 'r', 'utf-8') as f:
+            page = f.read()
+            meta = utils.getMetaData(page)
+            self.assertEqual(meta, {'title': 'A OGP test',
+                                    'description': 'testing opengraph metatags',
+                                    'keywords': None,
+                                    'author': 'myself',
+                                    'publisher': None,
+                                    'date_publish': datetime.datetime(2019, 9, 24, 17, 18, 42, tzinfo=tzutc()),
+                                    'copyright': None,
+                                    'thumbnail': 'localhost/logo.png'})
 
     def test_markdown(self):
         with codecs.open(os.path.join(testpath,'basic-html.html'), 'r', 'utf-8') as f:
