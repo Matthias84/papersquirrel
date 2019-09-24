@@ -9,11 +9,11 @@ from bs4 import BeautifulSoup
 from dateutil import parser as duparser
 
 
-def downloadPage(url,useragent = 'papersquirrel/0.1 (Linux; ) requests/2.22'):
+def downloadPage(url, useragent='papersquirrel/0.1 (Linux; ) requests/2.22'):
     """Download HTML page via HTTP following redirects, encodings, ..."""
     # TODO: Detect status codes and MIME headers
-    r = requests.get(url, headers = {'User-Agent': useragent,
-                                    'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'})
+    r = requests.get(url, headers={'User-Agent': useragent,
+                                   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'})
     return r.text
 
 
@@ -30,23 +30,23 @@ def getMetaData(html):
     date_publish = None
     copyright = None
     # try OpenGraph (OGP) metadata first
-    ogpTitle = dom.find("meta",  property="og:title")
+    ogpTitle = dom.find("meta", property="og:title")
     if ogpTitle:
         title = ogpTitle["content"]
-    ogpDescr = dom.find("meta",  property="og:description")
+    ogpDescr = dom.find("meta", property="og:description")
     if ogpDescr:
         description = ogpDescr["content"]
-    ogpAuthor = dom.find("meta",  property="article:author")
+    ogpAuthor = dom.find("meta", property="article:author")
     if ogpAuthor:
         author = ogpAuthor["content"]
-    ogpImage = dom.find("meta",  property="og:image")
+    ogpImage = dom.find("meta", property="og:image")
     if ogpImage:
         thumbnail = ogpImage["content"]
-    ogpPublished = dom.find("meta",  property="article:published_time")
+    ogpPublished = dom.find("meta", property="article:published_time")
     if ogpPublished:
         date_publish = ogpPublished["content"]
         date_publish = duparser.parse(date_publish)
-    ogpKeywords = dom.find("meta",  property="article:tag")
+    ogpKeywords = dom.find("meta", property="article:tag")
     if ogpKeywords:
         kw = ogpKeywords["content"]
     # try HTML tags if nessesary
@@ -84,11 +84,11 @@ def getMetaData(html):
         if link.rel:
             if link['rel'] == 'copyright':
                 copyright = link['href']
-    
+
     # TODO: Fallback for thumbnails is twitter md or first big picture before text
     return {'title': title,
             'description': description,
-            'thumbnail' : thumbnail,
+            'thumbnail': thumbnail,
             'keywords': kw,
             'author': author,
             'publisher': publisher,
@@ -102,17 +102,19 @@ def getContentPlainText(html):
     dom = BeautifulSoup(html, 'html.parser')
     return dom.get_text()
 
+
 def getContentMarkdown(html):
     """Returns page text as richtext markdown"""
     return html2text.html2text(html)
 
-def getImportantContentDom(html, verbose = False):
+
+def getImportantContentDom(html, verbose=False):
     '''
     Return <div> element that wraps (formated) text incl. headings but doesn't include menus /...
-    
+
     Traverse DOM and calculate content weigth per element (wordcount).
     '''
-    TEXT_SPAM_RATIO = 0.3 #percent of text to be ignored
+    TEXT_SPAM_RATIO = 0.3  # percent of text to be ignored
     dom = BeautifulSoup(html, 'html.parser')
     txt = dom.body.get_text()
     wordcountTotal = len(re.findall(r'\w+', txt))
@@ -133,20 +135,21 @@ def getImportantContentDom(html, verbose = False):
                 hierachy = ""
                 wordcountChild = len(re.findall(r'\w+', child.get_text()))
                 # keep as little infos as possible -> till below word ratio
-                if (wordcountChild / wordcountTotal) >= (1-TEXT_SPAM_RATIO):
-                        candidate = child
-                        highlight = '\033[94m'
+                if (wordcountChild / wordcountTotal) >= (1 - TEXT_SPAM_RATIO):
+                    candidate = child
+                    highlight = '\033[94m'
                 if verbose:
-                    #print debug infos
+                    # print debug infos
                     level = 0
                     for parent in child.parents:
-                        hierachy = parent.name + '.' +hierachy
-                        level = level +1
+                        hierachy = parent.name + '.' + hierachy
+                        level = level + 1
                     label = ''
-                    if 'class' in child.attrs :
+                    if 'class' in child.attrs:
                         label = child['class']
-                    print(highlight, hierachy,child.name, level, label, wordcountChild, '\033[0m')
+                    print(highlight, hierachy, child.name, level, label, wordcountChild, '\033[0m')
     return candidate
+
 
 def main(args):
     return 0
@@ -169,4 +172,3 @@ if __name__ == '__main__':
         # printContentWeights(page)
         md = getContentMarkdown(str(getImportantContentDom(page)))
         print(md)
-        

@@ -20,7 +20,7 @@ class Article(models.Model):
     source_html = models.TextField()
     source_markdown = models.TextField(editable=False)
     wordcount = models.BigIntegerField(editable=False, blank=True, null=True)
-    isRead = models.BooleanField(default = False)
+    isRead = models.BooleanField(default=False)
     # TODO: readingtime, keywords, previewimage, language
     # TODO: isRead, isStarred
 
@@ -47,11 +47,11 @@ class Article(models.Model):
         """Fetch page and add as an article. If source provided, it is used as page content instead"""
         # TODO: SECURITY check if file:// localhost, 127, 00: links to list server content
         if not html_source:
-            html_source =  downloadPage(url, useragent)
-        article = Article(download_url=url, download_date=timezone.now(), source_html= html_source)
+            html_source = downloadPage(url, useragent)
+        article = Article(download_url=url, download_date=timezone.now(), source_html=html_source)
         article.save()
         return article
-    
+
     def getImportantContent(self):
         """return minimal HTML skelleton of the text itself incl. images, ..."""
         return getImportantContentDom(self.source_html)
@@ -59,6 +59,7 @@ class Article(models.Model):
     def getMarkdown(self):
         """return markdown richtext"""
         return getContentMarkdown(self.source_html)
+
 
 class SquirrelUser(AbstractUser):
     pass
